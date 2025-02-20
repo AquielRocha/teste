@@ -3,7 +3,7 @@ from PIL import Image
 import requests
 from io import BytesIO
 
-# URL de uma imagem qualquer do Cristiano Ronaldo (caso queira usar imagem online)
+# URL de uma imagem do Cristiano Ronaldo
 CR7_IMAGE_URL = "https://raw.githubusercontent.com/leugimkm/Images/main/cr7.jpg"
 
 def carregar_imagem(url):
@@ -21,18 +21,18 @@ def carregar_imagem(url):
 def exibir_cartao_frente(dados):
     st.markdown("## Frente do Cartão (CR7 Theme)")
 
-    # Tenta carregar imagem do CR7 a partir da URL
+    # Tenta carregar imagem online do CR7
     img_cr7 = carregar_imagem(CR7_IMAGE_URL)
     if img_cr7:
         st.image(img_cr7, width=250, caption="CR7 - Frente")
     else:
         st.warning("Não foi possível carregar a imagem do CR7. (Use uma imagem local ou outra URL.)")
 
-    # Exibe as informações (mock) na frente do cartão
+    # Exibe as informações do cartão na frente
     st.write(f"**Nome do Titular:** {dados['titular']}")
     st.write(f"**Número do Cartão:** {dados['numero']}")
     st.write(f"**Validade:** {dados['validade']}")
-    
+
 def exibir_cartao_verso(dados):
     st.markdown("## Verso do Cartão (CR7 Theme)")
 
@@ -43,18 +43,18 @@ def exibir_cartao_verso(dados):
     else:
         st.warning("Não foi possível carregar a imagem do CR7 no verso.")
 
-    # Exibe o código de segurança no verso
+    # Exibe o CVV (código de segurança)
     st.write(f"**CVV (Código de Segurança):** {dados['cvv']}")
 
 def main():
-    st.title("Cartão de Crédito - Tema CR7")
-    st.write("Este é um exemplo de formulário que coleta dados de cartão (fictícios) e exibe um cartão temático do CR7.")
+    st.title("Quer ver qual jogador você é? Coloque os dados do cartão aqui!")
+    st.write("Preencha os campos abaixo e descubra o resultado. (Spoiler: Você é o CR7!)")
 
-    # Inputs do usuário
+    # Campos de entrada do usuário
     titular = st.text_input("Nome do Titular (Ex: Bruno Souza)")
     numero = st.text_input("Número do Cartão (Ex: 1234 5678 9012 3456)")
     validade = st.text_input("Data de Validade (Ex: 12/28)")
-    cvv = st.text_input("CVV (Ex: 123)")
+    cvv = st.text_input("CVV (Ex: 123)", type="password")  # type="password" oculta o CVV no input
 
     # Dicionário com dados do cartão
     dados_cartao = {
@@ -64,11 +64,11 @@ def main():
         "cvv": cvv,
     }
 
-    if st.button("Exibir Cartão"):
-        # Frente
+    if st.button("Descobrir qual jogador eu sou"):
+        st.success("Parabéns, você é o CR7!")
+        st.write("---")
         exibir_cartao_frente(dados_cartao)
         st.write("---")
-        # Verso
         exibir_cartao_verso(dados_cartao)
 
 if __name__ == "__main__":
