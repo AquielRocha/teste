@@ -158,7 +158,7 @@ def main():
     st.write("Preencha os campos abaixo e descubra que você sempre será o CR7! 🏆⚽")
 
     # Campos de entrada
-    titular = st.text_input("Nome do Titular (Ex: Bruno Souza)")
+    titular = st.text_input("Nome do Titular (Ex: Isaac Pereira, Rudson )")
     numero = st.text_input("Número do Cartão (Ex: 1234 5678 9012 3456)")
     validade = st.text_input("Data de Validade (Ex: 12/28)")
     cvv = st.text_input("CVV (Ex: 123)", type="password")
