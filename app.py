@@ -1,60 +1,92 @@
 import streamlit as st
 from PIL import Image
-import requests
-from io import BytesIO
 
-# URL de uma imagem do Cristiano Ronaldo
-CR7_IMAGE_URL = "https://raw.githubusercontent.com/leugimkm/Images/main/cr7.jpg"
+# Carregamos a imagem local, supondo que esteja na mesma pasta do app.py
+CR7_IMAGE_FILE = "images.jpeg"
 
-def carregar_imagem(url):
+def aplicar_estilos():
     """
-    Tenta carregar a imagem a partir da URL.
-    Se falhar, retorna None.
+    Injeta um CSS para deixar o fundo gradiente e alguns elementos coloridos.
     """
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        return Image.open(BytesIO(response.content))
-    except Exception:
-        return None
+    st.markdown(
+        """
+        <style>
+        /* Deixa o fundo da aplicação em um gradiente suave */
+        .stApp {
+            background: linear-gradient(to bottom right, #ffffff, #f2f2f2);
+        }
+
+        /* Muda a cor dos títulos */
+        h1, h2, h3, h4, h5, h6 {
+            color: #B22222; /* FireBrick */
+        }
+
+        /* Botões com cor de fundo e texto branco */
+        .stButton>button {
+            background-color: #DC143C; /* Crimson */
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            height: 3em;
+            width: 15em;
+        }
+
+        /* Alguns ajustes de fonte nos inputs */
+        input {
+            font-size: 1.1rem !important;
+            color: #00008B; /* Navy */
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
 def exibir_cartao_frente(dados):
-    st.markdown("## Frente do Cartão (CR7 Theme)")
+    st.markdown("<h2 style='color:#2F4F4F;'>Frente do Cartão </h2>", unsafe_allow_html=True)
 
-    # Tenta carregar imagem online do CR7
-    img_cr7 = carregar_imagem(CR7_IMAGE_URL)
-    if img_cr7:
-        st.image(img_cr7, width=250, caption="CR7 - Frente")
-    else:
-        st.warning("Não foi possível carregar a imagem do CR7. (Use uma imagem local ou outra URL.)")
+    try:
+        # Carrega a imagem local
+        img_cr7 = Image.open(CR7_IMAGE_FILE)
+        st.image(img_cr7, width=250, caption="CR7 ")
+    except Exception as e:
+        st.warning("Não foi possível carregar a imagem local 'images.jpeg'.")
 
-    # Exibe as informações do cartão na frente
-    st.write(f"**Nome do Titular:** {dados['titular']}")
-    st.write(f"**Número do Cartão:** {dados['numero']}")
-    st.write(f"**Validade:** {dados['validade']}")
+    st.markdown(f"""
+    <div style='font-size:18px; color:#4B0082; margin-top:10px;'>
+        <p><strong>Nome do Titular:</strong> {dados['titular']}</p>
+        <p><strong>Número do Cartão:</strong> {dados['numero']}</p>
+        <p><strong>Validade:</strong> {dados['validade']}</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 def exibir_cartao_verso(dados):
-    st.markdown("## Verso do Cartão (CR7 Theme)")
+    st.markdown("<h2 style='color:#2F4F4F;'>Verso do Cartão (CR7 Theme)</h2>", unsafe_allow_html=True)
 
-    # Podemos repetir ou usar outra imagem
-    img_cr7 = carregar_imagem(CR7_IMAGE_URL)
-    if img_cr7:
+    try:
+        # Podemos usar a mesma imagem ou outra
+        img_cr7 = Image.open(CR7_IMAGE_FILE)
         st.image(img_cr7, width=250, caption="CR7 - Verso")
-    else:
-        st.warning("Não foi possível carregar a imagem do CR7 no verso.")
+    except Exception as e:
+        st.warning("Não foi possível carregar a imagem local 'images.jpeg'.")
 
-    # Exibe o CVV (código de segurança)
-    st.write(f"**CVV (Código de Segurança):** {dados['cvv']}")
+    st.markdown(f"""
+    <div style='font-size:18px; color:#4B0082; margin-top:10px;'>
+        <p><strong>CVV (Código de Segurança):</strong> {dados['cvv']}</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 def main():
-    st.title("Quer ver qual jogador você é? Coloque os dados do cartão aqui!")
-    st.write("Preencha os campos abaixo e descubra o resultado. (Spoiler: Você é o CR7!)")
+    # Aplica os estilos/CSS personalizados
+    aplicar_estilos()
 
-    # Campos de entrada do usuário
+    st.title("Quer ver qual jogador você é? Coloque os dados do seu cartão aqui!")
+    st.write("Preencha os campos abaixo e descubra que você sempre será o CR7! 🏆⚽")
+
+    # Campos de entrada
     titular = st.text_input("Nome do Titular (Ex: Bruno Souza)")
     numero = st.text_input("Número do Cartão (Ex: 1234 5678 9012 3456)")
     validade = st.text_input("Data de Validade (Ex: 12/28)")
-    cvv = st.text_input("CVV (Ex: 123)", type="password")  # type="password" oculta o CVV no input
+    cvv = st.text_input("CVV (Ex: 123)", type="password")  # Oculta o CVV no input
 
     # Dicionário com dados do cartão
     dados_cartao = {
@@ -64,8 +96,9 @@ def main():
         "cvv": cvv,
     }
 
-    if st.button("Descobrir qual jogador eu sou"):
-        st.success("Parabéns, você é o CR7!")
+    # Botão de ação
+    if st.button("Descobrir qual jogador eu sou!"):
+        st.success("Parabéns, você é o CR7! 🏆")
         st.write("---")
         exibir_cartao_frente(dados_cartao)
         st.write("---")
