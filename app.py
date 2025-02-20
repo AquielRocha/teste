@@ -12,7 +12,7 @@ def aplicar_estilos(tema_escolhido: str):
     <style>
     /* Fundo gradiente claro */
     .stApp {
-        background: linear-gradient(to bottom right, #ffffff, #ffd700);
+        background: linear-gradient(to bottom right, #ffffff, #0000FF);
         transition: background 0.5s ease;
     }
 
